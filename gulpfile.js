@@ -10,7 +10,6 @@ var buffer = require('vinyl-buffer');
 var browserSync = require('browser-sync');
 var runSequence = require('run-sequence');
 var reload = browserSync.reload;
-var credentials = require("./config/credentials");
 
 // Bundle files with browserify
 gulp.task('scripts', function() {
