@@ -1,0 +1,17 @@
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+.DS_STORE
+#Configuration
+/config/
+#node_modules
+/node_modules/
+#dist and tmp  files
+/dist/
+/.tmp/
+
