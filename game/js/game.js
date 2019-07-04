@@ -15,7 +15,8 @@
     score = 0,
     wall = new Array(),
     player = null,
-    food = null;
+    food = null,
+    constructingBarier = false;
 
 var KEY_A = 65,
     KEY_W = 87,
@@ -27,7 +28,6 @@ var barreras = [];
 
 var dirConstructor = 0;
 
-var lastPressConstructor = null;
 
 var center =  null;
 var score = 0.00;
@@ -162,7 +162,7 @@ function paint(ctx) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     var img = new Image(800, 800);
-    //le decimos la ruta de la imagen, en este caso html5.jpg
+    //le decimos la ruta de la imagen
     img.src = "img/Lvl 1.png";
     //pasamos la imagen al 2d del canvas y se dibujará
     //en 0 0 podemos poner las cordenadas de donde empezar a dibujar la imagen
@@ -203,10 +203,10 @@ function paint(ctx) {
         }
         ctx.textAlign = 'left';
     }
-    //else {
+    else {
       ctx.fillText('SCORE: ' + Math.floor(score), 50, 50);
       ctx.fillText('RECURSOS: ' + recursos, canvas.width - 200, 50);
-    //}
+    }
 }
 
 function act() {
@@ -216,25 +216,33 @@ function act() {
             reset();
         } // Change Direction 
         if (lastPress == KEY_UP) {
-            dir = 0;
         }
         if (lastPress == KEY_RIGHT) {
             dir = 1;
-            //player.drawImageArea(ctx, sprite, 32, 64, 32, 32);
         }
         if (lastPress == KEY_DOWN) {
             dir = 2;
-            //player.drawImageArea(ctx, sprite, 0, 0, 32, 32);
         }
         if (lastPress == KEY_LEFT) {
             dir = 3;
-            //player.drawImageArea(ctx, sprite, 32, 32, 32, 32);
-        } // Move Rect 
+        }
         // Move Rect 
-        if(pressing[KEY_UP] && player.y > 0) player.y-=2; 
-        if (pressing[KEY_RIGHT] && player.x < canvas.width - 32) player.x += 2;
-        if (pressing[KEY_DOWN] && player.y < canvas.height - 32) player.y += 2;
-        if (pressing[KEY_LEFT] && player.x > 2) player.x -= 2;
+        if(pressing[KEY_UP] && player.y > 0) {
+            player.y-=2; 
+            dir = 0;
+        }
+        if (pressing[KEY_RIGHT] && player.x < canvas.width - 32) {
+            player.x += 2;
+            dir = 1;
+        }
+        if (pressing[KEY_DOWN] && player.y < canvas.height - 32) {
+            player.y += 2;
+            dir = 2;
+        }
+        if (pressing[KEY_LEFT] && player.x > 2) {
+            player.x -= 2;
+            dir = 3;
+        }
 
         /*if (player.x > canvas.width) {
             player.x = 0;
@@ -255,13 +263,11 @@ function act() {
                 gameover = true;
                 pause = true;
                  //killed = true;
-                console.log('Llego un mamey');
             }
             if (player.intersects(wall[i]) || playerConstructor.intersects(wall[i])) {
                 //gameover = true;
                 //pause = true;
                 killed = true;
-                console.log('Lo mataste');
             }
             /*if(wall[i].intersects(center)) {
               gameover = true;
@@ -296,29 +302,32 @@ function actConstructor() {
     if (!pause) { // GameOver Reset 
         if (gameover) {
             reset();
-        } // Change Direction 
-        if (lastPressConstructor == KEY_W) {
+        } 
+
+        // Move Rect 
+        if (pressing[KEY_W] && playerConstructor.y > 0) {
+            playerConstructor.y -= 2;
             dirConstructor = 0;
         }
-        if (lastPressConstructor == KEY_D) {
+        if (pressing[KEY_D] && playerConstructor.x < canvas.width - 32) {
+            playerConstructor.x += 2;
             dirConstructor = 1;
-            //player.drawImageArea(ctx, sprite, 32, 64, 32, 32);
         }
-        if (lastPressConstructor == KEY_S) {
+        if (pressing[KEY_S] && playerConstructor.y < canvas.height - 32) {
+            playerConstructor.y += 2;
             dirConstructor = 2;
-            //player.drawImageArea(ctx, sprite, 0, 0, 32, 32);
         }
-        if (lastPressConstructor == KEY_A) {
+        if (pressing[KEY_A] && playerConstructor.x > 2) {
+            playerConstructor.x -= 2;
             dirConstructor = 3;
-            //player.drawImageArea(ctx, sprite, 32, 32, 32, 32);
-        } // Move Rect 
-        // Move Rect 
-         if(pressing[KEY_W] && playerConstructor.y > 0) playerConstructor.y-=2; 
-        if (pressing[KEY_D] && playerConstructor.x < canvas.width - 32) playerConstructor.x += 2;
-        if (pressing[KEY_S] && playerConstructor.y < canvas.height - 32) playerConstructor.y += 2;
-        if (pressing[KEY_A] && playerConstructor.x > 2) playerConstructor.x -= 2;
+        }
+
 
         if (pressing[KEY_SPACE] && recursos >= 30) {
+            constructingBarier = true;
+        }
+        if (constructingBarier && !pressing[KEY_SPACE]) {
+            constructingBarier = false;
             // Hacer que ponga una pared
             if (dirConstructor == 0) {
                 // ARIBA
