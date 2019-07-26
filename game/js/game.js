@@ -1,11 +1,19 @@
-﻿var KEY_ENTER = 13,
+﻿import '../css/style.css';
+import Sprite from '../img/rpg_char.png';
+import Base from '../img/BASE.png';
+import Monster from '../img/Monster2.jpg';
+import Constructor from '../img/rpg_char2.png';
+import Wall from '../img/rockwall.png';
+import Background from '../img/Lvl 1.png';
+
+var KEY_ENTER = 13,
     KEY_LEFT = 37,
     KEY_UP = 38,
     KEY_RIGHT = 39,
     KEY_DOWN = 40,
     ENEMYS_SPAWN = 5,
     SCORE_OFFSET = 1,
-    STONE_BREAKER = 10;
+    STONE_BREAKER = 10,
     canvas = null,
     ctx = null,
     lastPress = null,
@@ -39,29 +47,27 @@ var playerConstructor = null;
 var TILESIZE = 32;
 var base = new Image();
 var sprite = new Image();
-sprite.src = 'img/rpg_char.png';
-base.src = 'img/BASE.png';
+sprite.src = Sprite;
+base.src = Base;
 
                         //         80, 96 
 // var spriteEnemigoOgro = new Image(320, 384);
 var spriteEnemigoOgro = new Image(160, 192);
-spriteEnemigoOgro.src = "img/Monster2.jpg";
+spriteEnemigoOgro.src = Monster;
 
 var spriteConstructor = new Image(96, 128);
-spriteConstructor.src = "img/rpg_char2.png";
+spriteConstructor.src = Constructor;
 
 var spriteRoca = new Image(32, 32);
-spriteRoca.src = "img/rockwall.png";
+spriteRoca.src = Wall;
 
 var direccionesEnemigo = {
     0: {
         x: 0,
         y: 288
-        //y: 288
     },
     1: {
         x: 0,
-        //y: 96
         y: 192
     },
     2: {
@@ -70,8 +76,7 @@ var direccionesEnemigo = {
     },
     3: {
         x: 0,
-        //y:48
-         y: 96
+        y: 96
     }
 };
 
@@ -163,7 +168,7 @@ function paint(ctx) {
 
     var img = new Image(800, 800);
     //le decimos la ruta de la imagen
-    img.src = "img/Lvl 1.png";
+    img.src = Background;
     //pasamos la imagen al 2d del canvas y se dibujará
     //en 0 0 podemos poner las cordenadas de donde empezar a dibujar la imagen
     ctx.drawImage(img, 0, 0);
